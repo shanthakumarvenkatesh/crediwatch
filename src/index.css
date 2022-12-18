@@ -11,4 +11,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* Table  */
 
+.bg-header {
+  background-color: #E0E5E8 !important;
+}
+
+/* Text color  */
+
+.text-blue {
+  color: #49B6E9;
+}
+
+/* Background color  */
+
+.bg-red {
+  background-color: #E0091B;
+}
+
+.bg-yellow {
+  background-color: #FECD00;
+}
+
+.bg-orange {
+  background-color: #FC830A;
+}
+
+.bg-grey {
+  background-color: #9FA6AA !important;
+}

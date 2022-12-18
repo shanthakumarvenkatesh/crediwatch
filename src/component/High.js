@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
 import data from './data';
-import Pagination from './Pagination';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 const Home = () => {
-
-
   const [inputdata, setInputdata] = useState('');
   const [currentParties, setCurrentParties] = useState(1);
   const [partiesPerPage, setPartiesPerPage] = useState(10);
   const [index, setIndex] = useState(1);
   const [show, setShow] = useState(false);
   const parties = data.data;
+let highParties = parties
+  .filter((data) => {
+    return data.score > 10;
+  })
+  .map((data) => {
+    return data;
+  });
 
-   const handleClose = () => setShow(false);
-   const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
   const handleChange = (e) => {
     e.preventDefault();
     setInputdata(e.target.value);
-    document.getElementById('hidden').style.display = "hidden";
-
   };
   const handleNumber = (e) => {
     e.preventDefault();
@@ -86,21 +88,20 @@ const Home = () => {
   const indexofFirstParty = indexofLastParty - partiesPerPage;
   const currentparties = parties.slice(indexofFirstParty, indexofLastParty);
 
-  const paginate = (pageNumber) => {
-    setCurrentParties(pageNumber);
-  };
+
+ 
 
   window.onload = () => {
-    var select = document.getElementById('select');
+    var selectAge = document.getElementById('selectAge');
     var contents;
 
-    for (let i = 0; i <= parties.length; i++) {
+    for (let i = 0; i <= highParties.length; i++) {
       contents += '<option>' + i + '</option>';
     }
-    select.innerHTML = contents;
+
+    selectAge.innerHTML = contents;
   };
   
-
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -131,7 +132,6 @@ const Home = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
       <section>
         <div className='container'>
           <div className='row mb-4'>
@@ -139,7 +139,7 @@ const Home = () => {
               <span className='fw-bold'>Show</span>{' '}
               <select
                 name='age'
-                id='select'
+                id='selectAge'
                 onChange={handleNumber}
                 className=''
               ></select>
@@ -171,7 +171,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentparties.map((tableData, i) => {
+                {highParties.map((tableData, i) => {
                   let display = tableData.display_name.toLocaleLowerCase();
                   if (display.includes(inputdata) || inputdata === '') {
                     return (
@@ -179,7 +179,6 @@ const Home = () => {
                         <tr key={i} className='align-middle'>
                           <th>
                             <button
-                              key={i}
                               onClick={(event) => {
                                 setIndex(i);
                                 handleShow();
@@ -212,22 +211,14 @@ const Home = () => {
           </div>
           <div className='d-flex justify-content-between flex-lg-row flex-column'>
             <p id='hidden' className='mb-0 fw-bold mt-3 mt-lg-0 mb-3 mb-lg-0'>
-              Displaying {partiesPerPage} parties in {parties.length}
+              Displaying {highParties.length} parties in {parties.length}
             </p>
-            <div className='overflow-scroll'>
-              <Pagination
-                partiesPerPage={partiesPerPage}
-                totalparties={parties.length}
-                paginate={paginate}
-              />
-            </div>
+            <div className='overflow-scroll'></div>
           </div>
         </div>
       </section>
     </>
   );
-
-  
 };
 
 export default Home;
