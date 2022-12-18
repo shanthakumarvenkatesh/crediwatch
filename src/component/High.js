@@ -10,7 +10,8 @@ const Home = () => {
   const [index, setIndex] = useState(1);
   const [show, setShow] = useState(false);
   const parties = data.data;
-let highParties = parties
+  
+  let highParties = parties
   .filter((data) => {
     return data.score > 10;
   })
